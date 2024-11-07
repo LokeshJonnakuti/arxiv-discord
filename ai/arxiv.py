@@ -10,7 +10,7 @@ import asyncio
 from langchain.document_loaders.arxiv import ArxivAPIWrapper
 # base search which returns Result objects
 from arxiv import SortCriterion, SortOrder, Search, Result
-import requests
+from security import safe_requests
 
 class ArxivFetch:
 
@@ -28,7 +28,7 @@ class ArxivFetch:
     
     @classmethod
     def get_pdf_txt(cls, paper_id: str, exclude_references=True):
-        resp = requests.get(cls.url_from_id(paper_id), stream=True)
+        resp = safe_requests.get(cls.url_from_id(paper_id), stream=True)
         stream = io.BytesIO(resp.content)
 
         page_txts = []
